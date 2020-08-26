@@ -1,13 +1,23 @@
 const [path, _] = [require('path'), require('lodash')]
+
+// Models
 const User = require(path.join(__dirname, '..', 'models', 'User'))
 
-exports.getUserById = async (req, res, next, id) => {
-    User.findById(id).exec((err, user) => {
-        if(err || !user) return res.status(500).json({success: false, error: `No valid user found.`})
-        req.profile = user
-        next()
-    })
-}
+// asyncHandler
+const { asyncHandler } = require(path.join(
+    __dirname,
+    "..",
+    "middlewares",
+    "asyncHandler"
+  ));
+  
+  // Error Handler
+  const ErrorResponse = require(path.join(
+    __dirname,
+    "..",
+    "utils",
+    "errorResponse"
+  ));
 
 exports.getAllUsers = async (req, res) => {
     User.find((err, users) => {
